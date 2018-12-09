@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 #Validación de archivo de configuración
 
@@ -8,12 +8,12 @@ then
 	exit 1
 fi
 
-
-if [[ ${1: -4} != ".txt" ]]
-then
-	echo "El archivo de configuración debe de ser .txt"
-	exit 1
-fi
+# Lo comento porque un archivo de texto plano no tiene porque ser un txt
+#if [[ ${1: -4} != ".txt" ]]
+#then
+#	echo "El archivo de configuración debe de ser .txt"
+#	exit 1
+#fi
 
 #Leemos el archivo de configuración (ignorando líneas en blanco
 # y comentarios)
@@ -64,7 +64,7 @@ do
 			        	then
 			        		echo "Error de sintaxis, falta el punto de montado"
 			        	else
-			        		echo "Error de sintaxis"        		
+			        		echo "Error de sintaxis"
 			        	fi
 			        else
 			        #SE REALIZA EL MONTADO
@@ -74,6 +74,12 @@ do
 					;;
 				#SERVICIO RAID
 				"raid" )
+					# Movemos el script y el archivo de configuración al servidor
+					## ¿¿QUE USUARIO USAMOS?? ¿¿ROOT??
+					## ¿¿EL FICHERO DE CONFIGURACIÓN DEL SERVICIO ESTARÁ EN EL ESCRITORIO ACTUAL??
+					scp ./servicios/raid.sh ${param[2]} practicas@${param[0]}:/tmp/
+					# Ejecutamos el script
+					ssh -t practicas@${param[0]} /tmp/raid.sh /tmp/${param[2]}
 					echo "raid" ;;
 				"lvm")
 					echo "lvm" ;;
