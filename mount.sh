@@ -56,8 +56,8 @@ fi
 
 #Verificamos que no existe el dispositivo en fstab
 
-echo "Agregamos dispositivo a /etc/fstab"
-echo "$device $mountPoint $deviceType defaults 0 2" >> /etc/fstab
+#echo "Agregamos dispositivo a /etc/fstab"
+#echo "$device $mountPoint $deviceType defaults 0 2" >> /etc/fstab
 
 #
 #if [ $(grep -q "$device" "/etc/fstab") ]
