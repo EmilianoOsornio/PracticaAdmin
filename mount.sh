@@ -54,19 +54,8 @@ fi
 
 #Modificamos /etc/fstab para que el dispositivo se monte siempre al arrancar la maquina
 
-#Verificamos que no existe el dispositivo en fstab
-
-#echo "Agregamos dispositivo a /etc/fstab"
-#echo "$device $mountPoint $deviceType defaults 0 2" >> /etc/fstab
-
-#
-#if [ $(grep -q "$device" "/etc/fstab") ]
-#then
-#	echo "Agregamos dispositivo a /etc/fstab"
-#    echo "$device $mountPoint $deviceType defaults 0 2" >> /etc/fstab
-#else
-#    echo "Ya existe el dispositivo en /etc/fstab"
-#fi
+echo "Agregamos dispositivo a /etc/fstab"
+echo "$device $mountPoint $deviceType defaults 0 2" >> /etc/fstab
 
 
 
