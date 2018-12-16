@@ -1,5 +1,5 @@
-#!/bin/bash -x
-export PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin"
+#!/bin/bash
+#export PATH="/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/root/bin"
 #FICHERO PASADO AL SCRIPT COMO ARGUMENTO
 #nombre-del-grupo-de-volumenes									serverdata
 #lista-de-dispositivos-en-el-grupo								/dev/sdb1 /dev/sdc1 /dev/sdd1

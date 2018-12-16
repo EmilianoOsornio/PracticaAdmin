@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 
 #COMPROBACIONES PARA QUE SE PUEDA ESTABLECER COMO CLIENTE DE BACKUP
@@ -20,7 +20,7 @@
 
 
 #1
-if [ $(wc -l < $1) -ne 4]
+if [ $(wc -l < $1) -ne 4 ]
 then
 	echo "El fichero $1 no tiene el numero de lineas esperado"
 	exit 1
@@ -43,12 +43,12 @@ fi
 
 #3
 echo "Procedemos a ver si el directorio de destino existe"
-if ssh $whoami@$ipdestino  "[ -d $dirremoto ]"
+if ssh $(whoami)@$ipdestino  "[ -d $dirremoto ]"
 then
 	echo "El directorio remoto existe"
 	echo "Procedemos a comprobar si tambien tiene permisos de escritura"
 	#4
-	if ssh $whoami@$ipdestino  "[ -w $dirremoto ]"
+	if ssh $(whoami)@$ipdestino  "[ -w $dirremoto ]"
 	then
 		echo "El directorio remoto tiene permisos de escritura"
 	else
@@ -80,7 +80,7 @@ else
 fi
 #6
 echo "Añadimos al crontab la ejecucion del backup cada $periodicidad horas"
-echo "0 $periodicidad * * * rsync -avzrte ssh $dirlocal $whoami@$ipdestino:$dirremoto" >> /etc/crontab
+echo "0 $periodicidad * * * rsync -avzrte ssh $dirlocal $(whoami)@$ipdestino:$dirremoto" >> /etc/crontab
 echo "Añadida la ruta al crontab"
 echo "Se ha configurado el backup correctamente"
 exit 0

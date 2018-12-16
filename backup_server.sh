@@ -1,5 +1,4 @@
-#!/bin/bash -x
-
+#!/bin/bash
 
 #COMPROBACIONES PARA QUE SE PUEDA ESTABLECER COMO SERVIDOR DE BACKUP
 
@@ -11,7 +10,7 @@
 
 
 #1
-if [ $(wc -l < $1) -ne 1]
+if [ $(wc -l < $1) -ne 1 ]
 then
 	echo "El fichero $1 no tiene el numero de lineas esperado"
 	exit 1
@@ -50,7 +49,7 @@ then
 				exit 1
 			fi
 		fi
-	fi	
+	fi
 else
 	echo "El directorio $dirbackup no existe"
 	exit 1
