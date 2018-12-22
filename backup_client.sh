@@ -22,7 +22,8 @@
 #1
 if [ $(wc -l < $1) -ne 4 ]
 then
-	echo "El fichero $1 no tiene el numero de lineas esperado"
+	echo "El fichero $1 no tiene el numero de lineas esperado" >&2
+	echo "Abortando ejecucion..." >&2
 	exit 1
 fi
 echo "El fichero $1 posee el numero de lineas necesarias"
@@ -37,7 +38,8 @@ if [ -d $dirlocal ]
 then
 	echo "El directorio de backup $dirbackup existe"
 else
-	echo "El directorio local no existe y no se puede realizar backup"
+	echo "El directorio local no existe y no se puede realizar backup" >&2
+	echo "Abortando ejecucion..." >&2
 	exit 1
 fi
 
@@ -52,11 +54,13 @@ then
 	then
 		echo "El directorio remoto tiene permisos de escritura"
 	else
-		echo "El directorio remoto no tiene permisos de escritura, no se puede realizar el backup"
+		echo "El directorio remoto no tiene permisos de escritura, no se puede realizar el backup" >&2
+		echo "Abortando ejecucion..." >&2
 		exir 1
 	fi
 else
-	echo "El directorio remoto no existe, no se puede realizar el backup"
+	echo "El directorio remoto no existe, no se puede realizar el backup" >&2
+	echo "Abortando ejecucion..." >&2
 	exit 1
 fi
 #5
@@ -68,13 +72,14 @@ then
 else
 	echo "Los paquetes de rsync no estan instalados en el sistema"
 	echo "Procedemos a instalarlos"
-	sudo apt-get update
-	sudo apt-get install rsync -y
+	sudo apt-get update &>/dev/null
+	sudo apt-get install rsync -y &>/dev/null
 	if [ $? -eq 0 ]
 	then
 		echo "La instalacion de rsync ha sido satisfcatoria"
 	else
-		echo "Fallo en la instalacion de rsync"
+		echo "Fallo en la instalacion de rsync" >&2
+		echo "Abortando ejecucion..." >&2
 		exit 1
 	fi
 fi

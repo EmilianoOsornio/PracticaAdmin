@@ -12,7 +12,8 @@
 #1
 if [ $(wc -l < $1) -ne 1 ]
 then
-	echo "El fichero $1 no tiene el numero de lineas esperado"
+	echo "El fichero $1 no tiene el numero de lineas esperado" >&2
+	echo "Abortando ejecucion..." >&2
 	exit 1
 fi
 echo "El fichero $1 posee el numero de lineas necesarias"
@@ -26,7 +27,8 @@ then
 	#2.2
 	if [ "$(ls -A $dirbackup)" ]
 	then
-		echo "El directorio no esta vacio, por lo tanto no se puede usar para backup"
+		echo "El directorio no esta vacio, por lo tanto no se puede usar para backup" >&2
+		echo "Abortando ejecucion..." >&2
 		exit 1
 	else
 		echo "El directorio de backup $dirbackup tambien esta vacio"
@@ -39,19 +41,21 @@ then
 		else
 			echo "Los paquetes de rsync no estan instalados en el sistema"
 			echo "Procedemos a instalarlos"
-			sudo apt-get update
-			sudo apt-get install rsync -y
+			sudo apt-get update &>/dev/null
+			sudo apt-get install rsync -y &>/dev/null
 			if [ $? -eq 0 ]
 			then
 				echo "La instalacion de rsync ha sido satisfcatoria"
 			else
-				echo "Fallo en la instalacion de rsync"
+				echo "Fallo en la instalacion de rsync" >&2
+				echo "Abortando ejecucion..." >&2
 				exit 1
 			fi
 		fi
 	fi
 else
-	echo "El directorio $dirbackup no existe"
+	echo "El directorio $dirbackup no existe" >&2
+	echo "Abortando ejecucion..." >&2
 	exit 1
 fi
 echo " Se ha configurado correctamente el directorio de backup"
