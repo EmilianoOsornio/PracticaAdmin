@@ -1,2 +1,9 @@
 #Máquina cliente
-192.168.56.102 raid raid1.conf
+#192.168.56.102 raid raid1.conf
+
+# Máquina servidora
+#192.168.56.104 nfs_server nfs_server.conf
+#192.168.56.102 nfs_client nfs_client.conf
+
+192.168.56.104 nis_server nis_server.conf
+192.168.56.102 nis_client nis_client.conf
