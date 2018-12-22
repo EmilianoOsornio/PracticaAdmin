@@ -22,7 +22,7 @@ then
 else
 	# Realizamos la instalación de nis
 	apt-get update
-	apt-get -y install nis
+	DEBIAN_FRONTEND=noninteractive apt-get -y install nis
 
 	echo "El nombre del dominio nis sera: $domain"
 	#Cambiamos hostname y defaultdomain
@@ -42,11 +42,11 @@ else
 	sed -i '/ASI2014/d' /etc/hosts ##Borrando ip
 	echo "$myIp $domain" >> /etc/hosts ##Añadiendo la propia
 
-	#Reiniciamos nis para cambiar los nombres automaticamente
+	# Reiniciamos nis para cambiar los nombres automaticamente
 	service nis restart
 
 	#Actualizamos la base de datos de nis
-	/usr/lib/yp/ypinit -m
+	EOF | /usr/lib/yp/ypinit -m
 
 	#Reiniciamos nis
 	service nis restart

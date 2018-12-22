@@ -50,8 +50,8 @@ else
     	echo "Se configurará el cliente con dominio: $domain sobre el servidor $nisServer"
 		# Realizamos la instalación de nis
 		apt-get update
-		apt-get -y install nis	
-
+		DEBIAN_FRONTEND=noninteractive apt-get -y install nis
+    
 		#Cambiamos hostname y defaultdomain
 		sed -i "s/^ASI2014.*/$domain/" /etc/hostname
 		hostname $domain
@@ -63,7 +63,7 @@ else
 		#Modificamos /etc/nsswitch.conf para describir para que info se usa nis
 		sed -i 's/compat/compat nis/g' /etc/nsswitch.conf
 		sed -i 's/dns/dns nis/g' /etc/nsswitch.conf
-		
+    
 		echo "$nisServer $domain" >> /etc/hosts
 
 		#Añadimos en /etc/pam.d/common-session
@@ -72,8 +72,9 @@ else
 		#Reiniciamos rpcbind y nis
 		service rpcbind restart
 		service nis restart
-
-		nomdom=`domainname`
+    
+		nomdom=$domain
+    
 		echo "Se configuro la maquina como cliente, con el dominio: $nomdom"
 
 		echo "Prueba con ypcat passwd"
@@ -82,6 +83,3 @@ else
 		#echo "El servidor especificado no es una dirección ip válida"
 	#fi
 fi
-
-
-
