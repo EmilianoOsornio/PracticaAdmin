@@ -1,4 +1,4 @@
-#!/bin/bash -x
+#!/bin/bash
 
 #Servicio Nis_server
 #Obtenemos ip propia por si se requiere en un futuro
