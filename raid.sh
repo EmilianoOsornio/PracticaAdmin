@@ -1,17 +1,29 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # Comprobamos que se pasa un fichero de configuración de raid
 if [ $# -ne 1 ]
 then
-	echo "Proporciona el archivo de configuración de raid"
+	(>&2 echo "Proporciona el archivo de configuración de raid")
 	exit 1
 fi
 
 # Hacemos un update para asegurarnos que podemos buscar el servicio mdadm
-apt-get update
+echo "Actualizando lista de paquetes..."
+apt-get update > /dev/null
+echo "Lista de paquetes actualizados"
+
 
 # Instalamos mdadm de tal forma que no pida interacción
-DEBIAN_FRONTEND=noninteractive apt-get install mdadm
+echo "Instalando paquete mdadm..."
+DEBIAN_FRONTEND=noninteractive apt-get install mdadm > /dev/null
+if [ $? -eq 0 ]
+then
+	echo "Se han instalado los paquetes de mdadm"
+else
+	(>&2 echo "La instalacion de los paquetes mdadm ha fallado")
+	(>&2 echo "Abortando ejecución...")
+	exit 1
+fi
 
 # Cargamos las tres líneas que debería tener el fichero de configuración en tres variables
 newDevice="$(sed -n 1p $1)"
@@ -20,10 +32,13 @@ devices="$(sed -n 3p $1)"
 raidDevices="$(echo $devices | wc -w)"
 
 # Creamos el array
-yes | mdadm --create --verbose $newDevice --level=$raidLevel --raid-devices=$raidDevices $devices
-
-if [ $? -ne 0 ]
+echo "Creando el RAID..."
+yes | mdadm --create --verbose $newDevice --level=$raidLevel --raid-devices=$raidDevices $devices > /dev/null
+if [ $? -eq 0 ]
 then
-	echo "Error en la creación del raid"
-	exit 2
+	echo "RAID creado correctamente"
+else
+	(>&2 echo "Error en la creación del RAID")
+	(>&2 echo "Abortando ejecucion...")
+	exit 1
 fi
