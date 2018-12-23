@@ -3,7 +3,7 @@
 #Servicio Nis_client
 #Obtenemos ip propia por si se requiere en un futuro
 myIp=`/sbin/ifconfig eth0 | grep 'inet addr:' | cut -d: -f2| cut -d' ' -f1`
-##Funcinon para ver si una ip es válida
+##Funcion para ver si una ip es válida
 function valid_ip()
 {
     local  ip=$1
@@ -24,7 +24,7 @@ function valid_ip()
 # Comprobamos que se pasa un fichero de configuración de mount
 if [ $# -ne 1 ]
 then
-	echo "Proporciona el archivo de configuración de nis_client"
+	echo "Proporciona el archivo de configuración de nis_client" >&2
 	exit 1
 fi
 
@@ -38,19 +38,22 @@ echo "El archivo de configuracion tiene: $domain $nisServer"
 
 if [ -z "$domain" ] && [ -z "$nisServer" ]
 then
-	echo "El archivo de configuracion esta vacío"
+	echo "El archivo de configuracion esta vacío" >&2
+	exit 1
 elif [ -z "$nisServer" ]
 then
-	echo "Error de sintaxis, falta servidor nis al que se desea conectar"
+	echo "Error de sintaxis, falta servidor nis al que se desea conectar" >&2
+	exit 1
 else
 	#Checamos que nisServer sea una ip válida
-	#valid_ip $nisServer
-    #if [ $? -eq 0 ]
-    #then
+	valid_ip $nisServer
+    if [ $? -eq 0 ]
+    then
     	echo "Se configurará el cliente con dominio: $domain sobre el servidor $nisServer"
 		# Realizamos la instalación de nis
-		apt-get update
-		DEBIAN_FRONTEND=noninteractive apt-get -y install nis
+		echo "Actualizando..."
+		apt-get update &>/dev/null
+		DEBIAN_FRONTEND=noninteractive apt-get -y install nis &>/dev/null
     
 		#Cambiamos hostname y defaultdomain
 		sed -i "s/^ASI2014.*/$domain/" /etc/hostname
@@ -76,10 +79,11 @@ else
 		nomdom=$domain
     
 		echo "Se configuro la maquina como cliente, con el dominio: $nomdom"
-
 		echo "Prueba con ypcat passwd"
 		ypcat passwd
-	#else
-		#echo "El servidor especificado no es una dirección ip válida"
-	#fi
+		exit 0
+	else
+		echo "El servidor especificado no es una dirección ip válida" >&2
+		exit 1
+	fi
 fi

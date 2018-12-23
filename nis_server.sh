@@ -7,7 +7,7 @@ myIp=`/sbin/ifconfig eth1 | grep 'inet addr:' | cut -d: -f2| cut -d' ' -f1`
 # Comprobamos que se pasa un fichero de configuración de mount
 if [ $# -ne 1 ]
 then
-	echo "Proporciona el archivo de configuración de nis_server"
+	echo "Proporciona el archivo de configuración de nis_server" >&2
 	exit 1
 fi
 
@@ -18,12 +18,15 @@ echo "El archivo de configuracion tiene: domain"
 
 if [ -z "$domain" ]
 then
-	echo "El archivo de configuracion esta vacío"
+	echo "El archivo de configuracion esta vacío" >&2
+	exit 1
 else
 	# Realizamos la instalación de nis
-	apt-get update
-	DEBIAN_FRONTEND=noninteractive apt-get -y install nis
-
+	echo "Actualizando..."
+	apt-get update &>/dev/null
+	echo "Instalando nis..."
+	DEBIAN_FRONTEND=noninteractive apt-get -y install nis &>/dev/null
+	echo "nis instalado"
 	echo "El nombre del dominio nis sera: $domain"
 	#Cambiamos hostname y defaultdomain
 	sed -i "s/^ASI2014.*/$domain/" /etc/hostname
@@ -50,4 +53,6 @@ else
 
 	#Reiniciamos nis
 	service nis restart
+	echo "Se configuro la máquina servidora con dominio: $domain"
+	exit 0
 fi
