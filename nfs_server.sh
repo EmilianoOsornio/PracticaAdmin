@@ -9,12 +9,12 @@ fi
 
 # Hacemos un update para asegurarnos que podemos buscar el servicio mdadm
 echo "Actualizando lista de paquetes..."
-apt-get update > /dev/null
+apt-get update &> /dev/null
 echo "Lista de paquetes actualizados"
 
 # Instalamos mdadm de tal forma que no pida interacción
 echo "Instalando paquete nfs-kernel-server"
-(apt-get -y install nfs-kernel-server) > /dev/null
+(apt-get -y install nfs-kernel-server) &> /dev/null
 if [ $? -eq 0 ]
 then
         echo "Se han instalado el paquete nfs-kernel-server"
@@ -41,7 +41,7 @@ do
 done < "$1"
 
 # Hacemos efectivos los cambios en /etc/exports
-exportfs -ra > /dev/null
+exportfs -ra &> /dev/null
 if [ $? -eq 0 ]
 then
         echo "Cambios incluidos en /etc/exports satisfactoriamente"

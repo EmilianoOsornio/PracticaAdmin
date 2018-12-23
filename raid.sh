@@ -16,13 +16,13 @@ fi
 
 # Hacemos un update para asegurarnos que podemos buscar el servicio mdadm
 echo "Actualizando lista de paquetes..."
-apt-get update > /dev/null
+apt-get update &> /dev/null
 echo "Lista de paquetes actualizados"
 
 
 # Instalamos mdadm de tal forma que no pida interacción
 echo "Instalando paquete mdadm..."
-DEBIAN_FRONTEND=noninteractive apt-get install mdadm > /dev/null
+DEBIAN_FRONTEND=noninteractive apt-get install mdadm &> /dev/null
 if [ $? -eq 0 ]
 then
 	echo "Se han instalado los paquetes de mdadm"
@@ -40,7 +40,7 @@ raidDevices="$(echo $devices | wc -w)"
 
 # Creamos el array
 echo "Creando el RAID..."
-yes | mdadm --create --verbose $newDevice --level=$raidLevel --raid-devices=$raidDevices $devices > /dev/null
+yes | mdadm --create --verbose $newDevice --level=$raidLevel --raid-devices=$raidDevices $devices &> /dev/null
 if [ $? -eq 0 ]
 then
 	echo "RAID creado correctamente"

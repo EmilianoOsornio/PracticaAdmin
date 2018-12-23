@@ -9,12 +9,12 @@ fi
 
 # Hacemos un update para asegurarnos que podemos buscar el servicio mdadm
 echo "Actualizando lista de paquetes..."
-apt-get update >/dev/null
+apt-get update &>/dev/null
 echo "Lista de paquetes actualizados"
 
 # Instalamos mdadm de tal forma que no pida interacción
 echo "Instalando paquete nfs-common"
-(apt-get -y install nfs-common) > /dev/null
+(apt-get -y install nfs-common) &> /dev/null
 if [ $? -eq 0 ]
 then
         echo "Se han instalado el paquete nfs-common"
