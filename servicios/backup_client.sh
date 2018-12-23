@@ -43,14 +43,17 @@ else
 	exit 1
 fi
 
+ssh-keygen -R $ipdestino &>/dev/null
+ssh-keyscan -H $ipdestino >> ~/.ssh/known_hosts 2>/dev/null
+
 #3
 echo "Procedemos a ver si el directorio de destino existe"
-if ssh $(whoami)@$ipdestino  "[ -d $dirremoto ]"
+if ssh -tn $ipdestino  "[ -d $dirremoto ]"
 then
 	echo "El directorio remoto existe"
 	echo "Procedemos a comprobar si tambien tiene permisos de escritura"
 	#4
-	if ssh $(whoami)@$ipdestino  "[ -w $dirremoto ]"
+	if ssh -tn $ipdestino  "[ -w $dirremoto ]"
 	then
 		echo "El directorio remoto tiene permisos de escritura"
 	else

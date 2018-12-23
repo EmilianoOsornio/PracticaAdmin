@@ -29,7 +29,6 @@ fi
 echo "Cambiando el nombre de dominio de NFS"
 sed -i '7isrv.nfs.ASI2014' /etc/idmapd.conf
 
-# Append each line in the configuration file to /etc/exports
 #Leemos el archivo de configuración
 echo "Realizando configuración de cliente NFS..."
 linenumber=1
