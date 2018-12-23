@@ -56,7 +56,7 @@ then
 	else
 		echo "El directorio remoto no tiene permisos de escritura, no se puede realizar el backup" >&2
 		echo "Abortando ejecucion..." >&2
-		exir 1
+		exit 1
 	fi
 else
 	echo "El directorio remoto no existe, no se puede realizar el backup" >&2
