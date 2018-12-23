@@ -105,14 +105,16 @@ do
 					#Ejecutamos el script
 					echo "Ejecutamos el script en la máquina remota"
 					ssh -tn ${param[0]} /tmp/nfs_server.sh /tmp/${param[2]}
+					;;
 				"nfs_client")
-					echo "Configuramos un servidor NFS en la máquina ${param[0]} con el archivo de configuración $
+					echo "Configuramos un servidor NFS en la máquina ${param[0]} con el archivo de configuración" $
 					# Movemos el script y el archivo de configuración al servidor cliente
 					echo "Movemos los archivos necesarios a la máquina remota"
 					scp ./nfs_client.sh ${param[2]} ${param[0]}:/tmp
 					# Ejecutamos el script
 					echo "Ejecutamos el script en la máquina remota"
 					ssh -tn ${param[0]} /tmp/nfs_client.sh /tmp/${param[2]}
+					;;
 				"backup_server")
 					echo "backup_server" ;;
 				"backup_client" )

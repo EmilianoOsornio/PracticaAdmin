@@ -7,6 +7,13 @@ then
 	exit 1
 fi
 
+if [ $(wc -l < $1) -ne 3 ]
+then
+	echo "El fichero de configuración $1 no tiene el numero de lineas esperado" >&2
+	echo "Abortando ejecucion..." >&2
+	exit 1
+fi
+
 # Hacemos un update para asegurarnos que podemos buscar el servicio mdadm
 echo "Actualizando lista de paquetes..."
 apt-get update > /dev/null
