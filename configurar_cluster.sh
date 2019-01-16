@@ -40,7 +40,7 @@ do
 					echo "Mount a maquina: ${param[0]} con archivo de configuracion: ${param[2]}"
 				    scp ./servicios/mount.sh ${param[2]} ${param[0]}:/tmp/
 					# Ejecutamos el script
-					ssh -tn ${param[0]} /tmp/mount.sh /tmp/${param[2]}
+					ssh -tn ${param[0]} /tmp/mount.sh /tmp/${param[2]##*/}
 					;;
                 		"raid" )
                     			echo "Creamos un RAID en la máquina ${param[0]} con el archivo de configuración ${param[2]}"
@@ -49,24 +49,24 @@ do
                     			scp ./servicios/raid.sh ${param[2]} ${param[0]}:/tmp/
                     			# Ejecutamos el script
                     			echo "Ejecutamos el script en la máquina remota"
-                    			ssh -tn ${param[0]} /tmp/raid.sh /tmp/${param[2]}
+                    			ssh -tn ${param[0]} /tmp/raid.sh /tmp/${param[2]##*/}
                     			;;
 				"lvm")
 			    		scp ./servicios/lvm.sh ${param[2]} ${param[0]}:/tmp/
 					# Ejecutamos el script
-					ssh -tn ${param[0]} /tmp/lvm.sh /tmp/${param[2]}
+					ssh -tn ${param[0]} /tmp/lvm.sh /tmp/${param[2]##*/}
 					;;
 				"nis_server")
 					echo "Creacion de servidor NIS con archivo de configuracion ${param[2]}"
 					scp ./servicios/nis_server.sh ${param[2]} ${param[0]}:/tmp/
 					# Ejecutamos script
-					ssh -tn ${param[0]} /tmp/nis_server.sh /tmp/${param[2]}
+					ssh -tn ${param[0]} /tmp/nis_server.sh /tmp/${param[2]##*/}
 					;;
 				"nis_client")
 					echo "Creacion de cliente NIS con archivo de configuracion ${param[2]}"
                     			scp ./servicios/nis_client.sh ${param[2]} ${param[0]}:/tmp/
                     			#Ejecutamos el script
-                    			ssh -tn ${param[0]} /tmp/nis_client.sh /tmp/${param[2]}
+                    			ssh -tn ${param[0]} /tmp/nis_client.sh /tmp/${param[2]##*/}
 					;;
                 		"nfs_server")
                     			echo "Configuramos un servidor NFS en la máquina ${param[0]} con el archivo de configuración ${param[2]}"
@@ -75,7 +75,7 @@ do
                     			scp ./servicios/nfs_server.sh ${param[2]} ${param[0]}:/tmp/
                     			#Ejecutamos el script
                     			echo "Ejecutamos el script en la máquina remota"
-                    			ssh -tn ${param[0]} /tmp/nfs_server.sh /tmp/${param[2]}
+                    			ssh -tn ${param[0]} /tmp/nfs_server.sh /tmp/${param[2]##*/}
                     			;;
                 		"nfs_client")
                     			echo "Configuramos un servidor NFS en la máquina ${param[0]} con el archivo de configuración"
@@ -84,17 +84,17 @@ do
                     			scp ./servicios/nfs_client.sh ${param[2]} ${param[0]}:/tmp
                     			# Ejecutamos el script
                     			echo "Ejecutamos el script en la máquina remota"
-                    			ssh -tn ${param[0]} /tmp/nfs_client.sh /tmp/${param[2]}
+                    			ssh -tn ${param[0]} /tmp/nfs_client.sh /tmp/${param[2]##*/}
                     			;;
 				"backup_server")
 					scp ./servicios/backup_server.sh ${param[2]} ${param[0]}:/tmp/
 					# Ejecutamos el script
-					ssh -tn ${param[0]} /tmp/backup_server.sh /tmp/${param[2]}
+					ssh -tn ${param[0]} /tmp/backup_server.sh /tmp/${param[2]##*/}
 					;;
 				"backup_client" )
 					scp ./servicios/backup_client.sh ${param[2]} ${param[0]}:/tmp/
 					# Ejecutamos el script
-					ssh -tn ${param[0]} /tmp/backup_client.sh /tmp/${param[2]}
+					ssh -tn ${param[0]} /tmp/backup_client.sh /tmp/${param[2]##*/}
 					;;
 				*)
 		            echo "El servicio solicitado no existe" >&2
